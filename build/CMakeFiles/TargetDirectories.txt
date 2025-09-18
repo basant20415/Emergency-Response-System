@@ -1,0 +1,3 @@
+/home/ubuntu/Emergency_Call_System/build/CMakeFiles/PRINT.dir
+/home/ubuntu/Emergency_Call_System/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Emergency_Call_System/build/CMakeFiles/rebuild_cache.dir

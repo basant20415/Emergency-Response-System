@@ -1,0 +1,112 @@
+/*
+  Notes
+
+Cases where you must define variables in .cpp files
+
+When you declare them extern in a header
+
+extern is only a promise that the variable exists somewhere else.
+
+Example:
+
+in header (config.hpp)
+
+extern int threshold;
+
+
+in one cpp file (config.cpp)
+
+int threshold = 100;
+
+
+Any .cpp that includes the header can use threshold, but it’s only defined once.
+
+Static data members of a class (non-inline)
+
+Static members are shared by all objects of the class.
+
+They must be defined outside the class in a .cpp file unless declared inline.
+
+Example:
+
+in header
+
+class Vehicle {
+public:
+    static int count;
+};
+
+
+in cpp
+
+int Vehicle::count = 0;
+------------------
+
+
+Right now you wrote:
+
+auto v = unique_ptr<Vehicle>();
+
+
+👉 This creates an empty unique_ptr (null).
+So when you call:
+
+v->set_acceleration(a);
+v->set_speed(s);
+
+
+you’re dereferencing a null pointer → undefined behavior / runtime crash.
+
+
+✅ Correct way to create and use unique_ptr
+
+You should actually allocate a Vehicle when you need one:
+
+auto v = std::make_unique<Vehicle>();
+
+
+Now v points to a valid Vehicle object, and you can safely do:
+
+v->set_acceleration(a);
+v->set_speed(s);
+es.Data_logging(std::move(v));  // transfer ownership
+*/
+
+
+/*
+virtual functions inside class
+ Option A — Make them pure virtual
+
+If Vehicle should be abstract (you never instantiate Vehicle directly, only car
+or truck), then declare them like this:
+
+virtual bool detect_accident(int speed, int acceleration) = 0;
+virtual string vehicle_type() = 0;
+
+
+This way, no implementation is required in a .cpp file, and Vehicle becomes a
+pure abstract base class. The linker error will disappear.
+
+Option B — Provide definitions in vehicle.cpp
+
+If you want Vehicle to be instantiable with default behavior, then you must
+define the functions in a .cpp file.
+
+Create vehicle.cpp:
+
+#include "../includes/vehicle.hpp"
+
+int Vehicle::counter = 0;
+
+// Default implementation (can be overridden)
+bool Vehicle::detect_accident(int speed, int acceleration) {
+    return (speed <= 0 && acceleration < -5);
+}
+
+string Vehicle::vehicle_type() {
+    return "generic vehicle";
+}
+
+
+
+*/

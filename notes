@@ -48,7 +48,7 @@ Right now you wrote:
 auto v = unique_ptr<Vehicle>();
 
 
-👉 This creates an empty unique_ptr (null).
+This creates an empty unique_ptr (null).
 So when you call:
 
 v->set_acceleration(a);
@@ -58,7 +58,7 @@ v->set_speed(s);
 you’re dereferencing a null pointer → undefined behavior / runtime crash.
 
 
-✅ Correct way to create and use unique_ptr
+Correct way to create and use unique_ptr
 
 You should actually allocate a Vehicle when you need one:
 
